@@ -1,38 +1,33 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player_Controller : MonoBehaviour
 {
 
-    public float Speed; //public variable use Pascal casing
-    float move; //private variable
-    
+    public float Speed;
     public float JumpForce;
     public bool IsJumping;
-    
-    Rigidbody2D rb2d;
+    float move;
 
-    // Unity Message | 0 references
+    Rigidbody2D rb2d;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
     }
-    // Unity Message | 0 references
 
+    // Update is called once per frame
     void Update()
     {
-        move = Input.GetAxis("Horizontal"); //x - axis
-        //use rigidbody2d to move left and right (x-axis)
+        move = Input.GetAxis("Horizontal");
+
         rb2d.linearVelocity = new Vector2(move * Speed, rb2d.linearVelocity.y);
 
-        //jump
         if (Input.GetButtonDown("Jump") && !IsJumping)
         {
-            rb2d.AddForce(new Vector2(rb2d.linearVelocity.x, JumpForce));
-            Debug.Log("Jump"); //for debugging purpose
+            rb2d.linearVelocity = (new Vector2(rb2d.linearVelocity.x, JumpForce));
         }
-
     }
-    private void OnCollisionEnter2D(Collision2D other)
+    public void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
         {
@@ -47,4 +42,3 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 }
-
